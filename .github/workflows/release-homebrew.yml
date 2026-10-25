@@ -2,7 +2,8 @@ name: Release + Homebrew Cask
 
 on:
   push:
-    branches: ["main"]
+    tags: ["v*"]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -21,8 +22,14 @@ jobs:
 
       - name: Compute version
         run: |
-          echo "APP_VERSION=${BASE_VERSION}.${GITHUB_RUN_NUMBER}" >> "$GITHUB_ENV"
-          echo "TAG=v${BASE_VERSION}.${GITHUB_RUN_NUMBER}" >> "$GITHUB_ENV"
+          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+            echo "APP_VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_ENV"
+            echo "TAG=${GITHUB_REF_NAME}" >> "$GITHUB_ENV"
+          else
+            # Manual run: derive a version from the run number.
+            echo "APP_VERSION=${BASE_VERSION}.${GITHUB_RUN_NUMBER}" >> "$GITHUB_ENV"
+            echo "TAG=v${BASE_VERSION}.${GITHUB_RUN_NUMBER}" >> "$GITHUB_ENV"
+          fi
 
       - name: Build app bundle
         run: |

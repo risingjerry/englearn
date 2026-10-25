@@ -1,25 +1,27 @@
-# Releasing / Homebrew 自动更新（维护者）
+# Releasing (maintainers)
 
-你希望做到：**每次 push 到 GitHub（main 分支）就自动发布一个新版本，并自动更新 Homebrew cask** —— 这确实需要 GitHub Actions。
+Pushing a version tag builds the app, publishes a GitHub Release, and updates the Homebrew cask.
 
-本仓库已经提供一个工作流（见 `.github/workflows/release-homebrew.yml`），它会在每次 push 到 `main` 时：
+```bash
+git tag v0.2.0
+git push origin v0.2.0
+```
 
-1. 在 macOS runner 上打包 `.app`
-2. 生成 zip 并计算 `sha256`
-3. 创建一个新的 GitHub Release（tag 形如 `v0.1.0.<run_number>`）
-4. 自动更新 tap 仓库 `risingjerry/homebrew-thought2english` 里的 cask（更新 version / sha256 / url）
+[`release-homebrew.yml`](.github/workflows/release-homebrew.yml) runs on tags matching `v*` (and manually via *Run workflow*, which derives a version from the run number). It:
 
-## 你需要做的唯一手动步骤：添加一个 Secret
+1. builds `Thought2English.app` with `scripts/package_app.sh` on a macOS runner,
+2. zips it and computes the `sha256`,
+3. creates a GitHub Release for the tag with the zip attached,
+4. updates the cask in `risingjerry/homebrew-thought2english` (version / sha256 / url).
 
-在 GitHub → 你的 `englearn`（主仓库） → Settings → Secrets and variables → Actions：
+Ordinary pushes to `main` only run [CI](.github/workflows/ci.yml); they do not publish anything.
 
-- 新增 `HOMEBREW_TAP_TOKEN`
-  - 值：一个 GitHub Personal Access Token（建议 fine-grained）
-  - 权限：对 `risingjerry/homebrew-thought2english` 具有读写权限（Contents: Read/Write）
+## One manual setup step: a secret
 
-之后，每次你 `git push` 到 `main`，Homebrew 用户就可以：
+In the `englearn` repo → Settings → Secrets and variables → Actions, add `HOMEBREW_TAP_TOKEN`: a GitHub token (fine-grained is fine) with Contents read/write on `risingjerry/homebrew-thought2english`. Without it the release still succeeds and the cask update is skipped.
+
+After a release, users get it with:
 
 ```bash
 brew upgrade --cask thought2english
 ```
-
