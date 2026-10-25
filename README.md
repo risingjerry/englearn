@@ -4,7 +4,7 @@
 
 **A macOS menu bar and window app that rewrites your rough Chinese or English notes into two polished English versions: a Spoken Script and Formal Writing, using your own Gemini or DeepSeek API key.** (The repo is named `englearn`; the app is called Thought2English.)
 
-![Thought2English Write screen: a rough draft becomes a Spoken Script, Formal Writing and notes](Assets/screenshots/writeeng.png)
+![Demo: a rough English draft is typed into Thought2English, one click on Generate returns a Spoken Script, Formal Writing and Notes, then the same works for a Chinese draft and every run appears in History](docs/demo.gif)
 
 ## Install
 
@@ -27,6 +27,8 @@ Then open **Settings**, choose a provider, and paste your API key.
 - **Menu bar mini window** for quick use.
 
 ## Screenshots
+
+![Write screen: a rough draft becomes a Spoken Script, Formal Writing and notes](Assets/screenshots/writeeng.png)
 
 ![Write, Chinese input](Assets/screenshots/writecn.png)
 

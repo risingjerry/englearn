@@ -1,0 +1,57 @@
+<!doctype html><meta charset="utf-8">
+<style>
+*{box-sizing:border-box;margin:0}
+html,body{width:1000px;height:870px;background:#0b0b0c;overflow:hidden;font-family:-apple-system,"SF Pro Text","PingFang SC",sans-serif}
+.view{position:absolute;left:0;top:0;width:1000px;height:800px;overflow:hidden;background:#0b0b0c}
+.layer{position:absolute;left:0;top:0;width:1000px;height:800px;overflow:hidden}
+.src{position:absolute;left:0;top:0;transform-origin:0 0}
+.src img{display:block;max-width:none}
+.box{position:absolute;background:#262628;border-radius:20px;padding:11px 60px 0 21px;font:26.2px/32.3px Menlo,"PingFang SC",monospace;color:#ececec;white-space:pre-wrap;overflow:hidden}
+.caret{display:inline-block;width:11px;height:22px;background:#6e7cf5;vertical-align:-4px;margin-left:1px}
+.cover{position:absolute;background:linear-gradient(#0f0f10,#0a0a0b)}
+.ring{position:absolute;border-radius:16px;border:7px solid #8b97ff;pointer-events:none}
+.pill{position:absolute;padding:20px 50px;border-radius:40px;background:#26262a;color:#cfd3ff;font:600 52px -apple-system,sans-serif;border:2px solid #3a3d66}
+.hl{position:absolute;border:6px solid #8b97ff;border-radius:14px;background:rgba(110,124,245,.12)}
+.bar{position:absolute;left:0;top:800px;width:1000px;height:70px;background:#131316;border-top:1px solid #2a2a30;display:flex;align-items:center;padding:0 22px;gap:16px}
+.chip{display:flex;align-items:center;gap:8px;font:600 15px -apple-system,sans-serif;color:#6b6b75;white-space:nowrap}
+.chip b{width:26px;height:26px;border-radius:13px;background:#26262c;color:#8a8a95;display:flex;align-items:center;justify-content:center;font-size:14px}
+.chip.on{color:#fff}.chip.on b{background:#5b6cf2;color:#fff}
+.cap{margin-left:auto;font:600 19px -apple-system,sans-serif;color:#e8e8ee;text-align:right}
+</style>
+<div class="view">
+ <div class="layer" id="en"><div class="src" style="transform:translate(-31px,-10px) scale(.42)"><img src="../../Assets/screenshots/writeeng.png" width="2442" height="2008">
+  <div class="box" id="enbox" style="left:174px;top:217px;width:2181px;height:696px"></div>
+  <div class="cover" id="encov" style="left:120px;top:1170px;width:2290px;height:840px"></div>
+  <div class="pill" id="enpill" style="left:1000px;top:1480px">Generating…</div>
+  <div class="ring" id="enring" style="left:2186px;top:935px;width:180px;height:64px"></div></div></div>
+ <div class="layer" id="cn"><div class="src" style="transform:translate(2px,-5px) scale(.42)"><img src="../../Assets/screenshots/writecn.png" width="2346" height="2006">
+  <div class="box" id="cnbox" style="left:94px;top:207px;width:2176px;height:694px;padding:11px 32px 0 22px;font-size:25.4px;line-height:32.2px;background:#272729"></div>
+  <div class="cover" id="cncov" style="left:60px;top:1161px;width:2260px;height:850px"></div>
+  <div class="pill" id="cnpill" style="left:1000px;top:1500px">Generating…</div>
+  <div class="ring" id="cnring" style="left:2102px;top:922px;width:180px;height:66px"></div></div></div>
+ <div class="layer" id="hist"><div class="src" style="transform:translate(-225px,0) scale(.43)"><img src="../../Assets/screenshots/history.png" width="3004" height="2118">
+  <div class="hl" id="hlrow" style="left:582px;top:428px;width:1066px;height:122px"></div></div></div>
+</div>
+<div class="bar"><div class="chip" id="c1"><b>1</b>Draft</div><div class="chip" id="c2"><b>2</b>Generate</div><div class="chip" id="c3"><b>3</b>History</div><div class="cap" id="cap"></div></div>
+<script>
+const EN="Now AI big model is very expensive, and data privacy is big problem. I think DePIN and zkML can solve. DePIN let people give their idle GPU, so training cost is lower. zkML can prove AI run right but no leak data. Now technology is not good, but I bullish it in 2026.";
+const CN="现在的 AI 大模型太贵了，而且数据隐私是个大问题。我觉得去中心化算力 (DePIN) 和 zkML 能解决这些。DePIN 让大家贡献闲置的 GPU，这样训练成本就低了。zkML 可以在不泄露数据的情况下证明 AI 跑得对不对。虽然现在技术还不成熟，但我看好它在 2026 年爆发。";
+const $=id=>document.getElementById(id);
+function pad(id,st,txt,mask){
+  const L=$(id); L.style.opacity=st.op??0; if(!(st.op>0)) return;
+  const k=id; const box=$(k+'box'),cov=$(k+'cov'),pill=$(k+'pill'),ring=$(k+'ring');
+  const n=st.typed??txt.length; const done=n>=txt.length&&(st.rev??0)>0||st.boxfade;
+  box.style.display=(st.typed===undefined||st.boxfade)?'none':'block';
+  box.textContent=txt.slice(0,n); if(n<txt.length&&st.caret!==false){const c=document.createElement('span');c.className='caret';box.appendChild(c)}
+  const r=st.rev??1; cov.style.display=r>=1?'none':'block'; cov.style.clipPath=`inset(${r*100}% 0 0 0)`;
+  pill.style.display=st.spin?'block':'none';
+  ring.style.display=st.click?'block':'none'; ring.style.transform=`scale(${1+(st.click||0)*.12})`; ring.style.opacity=1-(st.click||0)*.4;
+}
+function render(s){
+  pad('en',s.en||{op:0},EN); pad('cn',s.cn||{op:0},CN);
+  const h=s.hist||{op:0}; $('hist').style.opacity=h.op; $('hlrow').style.display=h.hl?'block':'none';
+  [1,2,3].forEach(i=>$('c'+i).className='chip'+(s.step==i?' on':''));
+  $('cap').textContent=s.cap||'';
+}
+render(JSON.parse(decodeURIComponent(location.hash.slice(1))));
+</script>

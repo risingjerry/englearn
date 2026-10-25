@@ -4,7 +4,7 @@
 
 **一个 macOS 菜单栏 + 窗口小工具：把你随手写的中文/英文笔记，一键变成两份英文：口语脚本（Spoken Script）和正式写作（Formal Writing）。使用你自己的 Gemini 或 DeepSeek API Key。**（仓库名是 `englearn`，App 名叫 Thought2English。）
 
-![Thought2English 写作页：草稿变成口语脚本、正式写作和说明](Assets/screenshots/writeeng.png)
+![演示：在 Thought2English 里输入一段粗糙的英文草稿，点一下 Generate 得到口语脚本、正式写作和说明；中文草稿同样可用，每次结果都会存进历史](docs/demo.gif)
 
 ## 安装
 
@@ -27,6 +27,8 @@ brew install --cask thought2english
 - **菜单栏小窗**，随手就能用。
 
 ## 截图
+
+![写作页：草稿变成口语脚本、正式写作和说明](Assets/screenshots/writeeng.png)
 
 ![写作页（中文输入）](Assets/screenshots/writecn.png)
 
