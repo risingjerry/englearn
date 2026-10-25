@@ -32,7 +32,7 @@ Supports **Gemini** and **DeepSeek** using your own API keys.
 ## Install (recommended)
 
 ```bash
-brew tap jnhflow21/thought2english
+brew tap risingjerry/thought2english
 brew install --cask thought2english
 ```
 

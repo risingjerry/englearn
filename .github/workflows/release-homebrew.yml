@@ -13,7 +13,7 @@ jobs:
     env:
       APP_NAME: Thought2English
       BIN_NAME: englearn
-      TAP_REPO: JNHFlow21/homebrew-thought2english
+      TAP_REPO: risingjerry/homebrew-thought2english
       # Base version stays in scripts/package_app.sh / Info.plist.
       BASE_VERSION: "0.1.0"
     steps:
@@ -69,11 +69,11 @@ jobs:
             version "${APP_VERSION}"
             sha256 "${ZIP_SHA256}"
 
-            url "https://github.com/JNHFlow21/englearn/releases/download/${TAG}/${APP_NAME}-${APP_VERSION}-macos.zip",
-                verified: "github.com/JNHFlow21/englearn/"
+            url "https://github.com/risingjerry/englearn/releases/download/${TAG}/${APP_NAME}-${APP_VERSION}-macos.zip",
+                verified: "github.com/risingjerry/englearn/"
             name "${APP_NAME}"
             desc "Turn Chinese/English notes into native English (spoken + formal)"
-            homepage "https://github.com/JNHFlow21/englearn"
+            homepage "https://github.com/risingjerry/englearn"
 
             app "${APP_NAME}.app"
 
